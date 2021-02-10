@@ -42,6 +42,8 @@ const sidebarData = {
   ]
 };
 const modalData = {
+  title: 'Warning',
+  text: 'Some text here... Some text here... Some text here... Some text here... Some text here... Some text here...',
   themes: {
     default: 'modal--theme--default',
     warning: 'modal--theme--warning',
@@ -56,21 +58,23 @@ const renderAccordion = (rootElement, data, theme = 'accordion--theme--primary')
   const parent = document.querySelector(rootElement);
   parent.innerHTML += ourGeneratedHTML;
 }
+
 const renderSidebar = (rootElement) => {
   const template = Handlebars.templates['sidebar'];
   const ourGeneratedHTML = template();
   const parent = document.querySelector(rootElement);
   parent.innerHTML += ourGeneratedHTML;
-  renderAccordion('.sidebar', sidebarData, 'accordion--theme--secondary');
 }
-const renderModal = (rootElement, data) => {
+
+const renderModal = (rootElement, data, theme = 'modal--theme--default') => {
   const template = Handlebars.templates.modal;
-  const theme = data;
-  const ourGeneratedHTML = template({ theme });
+  data.theme = theme;
+  const ourGeneratedHTML = template(data);
   const parent = document.querySelector(rootElement);
   parent.innerHTML += ourGeneratedHTML;
 }
+renderModal('#faq-page', modalData, 'modal--theme--dark');
 renderAccordion('.faq-page-wrapper', faqData, 'accordion--theme--primary');
 renderSidebar('#faq-page');
-renderModal('#faq-page', modalData.themes.dark);
+renderAccordion('.sidebar', sidebarData, 'accordion--theme--secondary');
 
