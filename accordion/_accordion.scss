@@ -1,0 +1,74 @@
+@import '../variables';
+
+// Accordion Variables
+$accordion-item-gap: 15px;
+$accordion-content-max-height: 200px;
+$border-radius: 5px;
+
+// Accordion General
+* { box-sizing: border-box; }
+
+.accordion {
+  padding: 20px;
+  &__item {
+    margin-bottom: $accordion-item-gap;
+    border-radius: $border-radius;
+  }
+  &__header {
+    @include displayFlex(space-between, center);
+    padding: 0 20px;
+    cursor: pointer;
+    &:hover .accordion__icon {
+      transition: .2s;
+    }
+  }
+  &__title {
+    font-weight: normal;
+    font-size: 1.3em;
+  }
+  &__icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 1.5em;
+    font-weight: bold;
+    @include displayFlex(center, center);
+  }
+  &__icon--active {
+    transition: .2s;
+  }
+  &__content {
+    // Max-height (koji je los jer transition nije kako treba, pogotovo ako stavimo veci max-width za svaki slucaj) ili JS sa dosta koda za ovu istu stvar? Sta je bolje?
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s;
+    padding: 0 20px;
+    text-align: left;
+  }
+  &__paragraph {
+    padding: 20px 30px;
+    line-height: 1.5;
+    border-radius: $border-radius;
+  }
+  // &__header--active +  &__content{
+  //   max-height: $accordion-content-max-height;
+  // }
+}
+
+// Ovo mora da se resi bolje nekako...?
+@media screen and (max-width: $break-m) {
+  $accordion-content-max-height: 400px;
+  .accordion {
+    &__header--active +  &__content {
+      max-height: $accordion-content-max-height;
+    }
+  }
+}
+@media screen and (max-width: $break-s) {
+  $accordion-content-max-height: 600px;
+  .accordion {
+    &__header--active +  &__content {
+      max-height: $accordion-content-max-height;
+    }
+  }
+}

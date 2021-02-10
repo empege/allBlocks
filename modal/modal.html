@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modal</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+  <link rel="stylesheet" href="modal.css">
+</head>
+
+<body>
+
+  <div class="modal modal--theme--warning modal--active">
+    <div class="modal__background js-modal-background"></div>
+    <div class="modal__inner">
+      <header class="modal__header">
+        <h1 class="modal__title">Warning!</h1>
+        <button class="modal__exit-button js-modal-exit-btn"><i class="fas fa-times"></i>
+        </button>
+      </header>
+      <div class="modal__paragraph">Some text here... Some text here... Some text here... Some text here... Some text here... Some text here...</div>
+      <footer class="modal__footer">
+        <!-- This gon be if else when template -->
+        <button class="button modal__button">Accept</button>
+        <button class="button modal__button">Decline</button>
+      </footer>
+    </div>
+  </div>
+
+
+
+
+  <script src="modal.js"></script>
+</body>
+
+</html>

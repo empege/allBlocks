@@ -1,0 +1,18 @@
+@import 'variables';
+
+.faq-page-wrapper {
+  max-width: $faq-page-wrapper-width;
+  margin: 0 auto;
+  text-align: center;
+  color: $color-secondary-text;
+}
+
+@import 'accordion/_accordion.scss';
+@import 'accordion/_theme/_accordion--theme--primary.scss';
+@import 'accordion/_theme/_accordion--theme--secondary.scss';
+
+@import 'modal/_modal.scss';
+@import 'modal/_theme/_modal--theme--default.scss';
+@import 'modal/_theme/_modal--theme--warning.scss';
+
+@import 'sidebar/_sidebar.scss';

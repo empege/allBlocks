@@ -1,0 +1,20 @@
+<section class="accordion {{theme}} faq-page-wrapper__accordion">
+  {{#each accordionData}}
+  <div class="accordion__item">
+    <div class="accordion__header js-accordion-header">
+      <h1 class="accordion__title">{{title}}</h1>
+      <span class="accordion__icon js-acordion-icon">
+        <i class="fas fa-plus"></i>
+      </span>
+      <span class="accordion__icon js-acordion-icon display-none">
+        <i class="fas fa-minus"></i>
+      </span>
+    </div>
+    <div class="accordion__content js-accordion-content">
+      <p class="accordion__paragraph js-accordion-paragraph">
+        {{text}}
+      </p>
+    </div>
+  </div>
+  {{/each}}
+</section>
