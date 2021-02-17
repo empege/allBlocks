@@ -157,15 +157,12 @@
 
 .modal {
   display: none;
+  opacity: 0;
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
-}
-
-.modal--active {
-  display: block;
 }
 
 .modal__background {
@@ -202,7 +199,6 @@
 }
 
 .modal__title {
-  margin: 0;
   font-size: 2em;
 }
 
@@ -231,6 +227,55 @@
 
 .modal__button {
   margin: 0 5px;
+}
+
+.modal--active--default {
+  opacity: 1;
+  display: block;
+}
+
+.modal--active--fadein {
+  display: block;
+  -webkit-animation: fadein .8s forwards;
+          animation: fadein .8s forwards;
+}
+
+.modal--active--slidein {
+  display: block;
+  -webkit-animation: fadein .5s forwards;
+          animation: fadein .5s forwards;
+}
+
+.modal--active--slidein .modal__inner {
+  top: 20%;
+  -webkit-animation: slidein .8s forwards;
+          animation: slidein .8s forwards;
+}
+
+@-webkit-keyframes fadein {
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadein {
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes slidein {
+  100% {
+    top: 50%;
+    opacity: 1;
+  }
+}
+
+@keyframes slidein {
+  100% {
+    top: 50%;
+    opacity: 1;
+  }
 }
 
 @media screen and (min-width: 576px) {

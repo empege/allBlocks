@@ -66,14 +66,15 @@ const renderSidebar = (rootElement) => {
   parent.innerHTML += ourGeneratedHTML;
 }
 
-const renderModal = (rootElement, data, theme = 'modal--theme--default') => {
+const renderModal = (rootElement, data, theme = 'modal--theme--default', enterMode = 'modal--active--default') => {
   const template = Handlebars.templates.modal;
   data.theme = theme;
+  data.enterMode = enterMode;
   const ourGeneratedHTML = template(data);
   const parent = document.querySelector(rootElement);
   parent.innerHTML += ourGeneratedHTML;
 }
-renderModal('#faq-page', modalData, 'modal--theme--dark');
+renderModal('#faq-page', modalData, 'modal--theme--dark', 'modal--active--fadein');
 renderAccordion('.faq-page-wrapper', faqData, 'accordion--theme--primary');
 renderSidebar('#faq-page');
 renderAccordion('.sidebar', sidebarData, 'accordion--theme--secondary');

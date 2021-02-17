@@ -14,7 +14,12 @@ exitBtn.addEventListener('click', (e) => exitModal(e));
 modalBackground.addEventListener('click', (e) => exitModal(e));
 
 // Functions
+const removeClassByPrefix = (prefix) => {
+
+}
 const exitModal = (e) => {
   const modal = e.target.closest('.modal');
-  modal.classList.remove('modal--active');
+  // Remove class with prefix 'modal--active--'
+  const regex = new RegExp('\\bmodal--active--\\w*\\b', 'gi');
+  modal.className = modal.className.replace(regex, '');
 }
