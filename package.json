@@ -1,10 +1,10 @@
 {
-  "name": "accordion",
+  "name": "allblocks",
   "version": "1.0.0",
   "description": "- Trying to put my accordion into different wrappers and based on info given in the wrappers change accordions theme, data and so on.",
   "main": "faq.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,8 @@
   "devDependencies": {
     "handlebars": "^4.7.7",
     "handlebars-loader": "^1.7.1",
+    "html-loader": "^2.0.0",
+    "html-webpack-plugin": "^5.1.0",
     "path": "^0.12.7",
     "webpack": "^5.22.0",
     "webpack-cli": "^4.5.0",
