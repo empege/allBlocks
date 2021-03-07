@@ -8,7 +8,7 @@
   src: url("GothamLight.ttf");
 }
 
-.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6 {
   color: #4a4a4a;
   display: block;
   margin: 0;
@@ -22,7 +22,7 @@ a {
 body {
   margin: 0;
   padding: 0;
-  font-family: Gotham, serif;
+  font-family: 'Shippori Mincho', serif;
 }
 
 .slider {
