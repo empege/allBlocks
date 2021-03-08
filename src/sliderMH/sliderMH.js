@@ -14,6 +14,7 @@ const sliderMH = {
     slide: 'slider__slide',
     sliderInner: 'slider__inner',
     currentSlide: 'slider__slide--current',
+    sliderContent: 'slider__content'
   }
 }
 
@@ -21,15 +22,17 @@ const sliderMH = {
 const sliderInner = document.querySelector(`.${sliderMH.selectors.sliderInner}`);
 const slides = document.querySelectorAll(`.${sliderMH.selectors.slide}`);
 const slide = document.querySelector(`.${sliderMH.selectors.slide}`)
+const sliderContent = document.querySelectorAll(`.${sliderMH.selectors.sliderContent}`)
 const arrowLeft = document.querySelector(`.${sliderMH.selectors.arrowLeft}`)
 const arrowRight = document.querySelector(`.${sliderMH.selectors.arrowRight}`)
 
 // Event Listeners
 arrowLeft.addEventListener('click', () => slideLeft());
 arrowRight.addEventListener('click', () => slideRight());
-sliderInner.addEventListener('transitionend', () => expandCurrentSlide());
-sliderInner.addEventListener('transitionend', () => checkSlideIndex());
+sliderInner.addEventListener('transitionend', (e) => expandCurrentSlide(e));
+sliderInner.addEventListener('transitionend', (e) => checkSlideIndex(e));
 slides.forEach(slide => slide.addEventListener('click', (e) => checkClickedSlide(e)))
+
 
 // Width of slide element
 const slideWidth = slide.offsetWidth;
@@ -48,37 +51,48 @@ loadSlides();
 
 // Slide left and right - show slider based on current index
 const slideFoo = () => {
+  sliderInner.style.transition = '.4s all'
   sliderInner.style.transform = `translateX(${-slideWidth * index + slideWidth / 2}px)`;
-  sliderInner.style.transition = '0.4s all'
   slides.forEach(slide => slide.classList.remove(sliderMH.selectors.currentSlide, sliderMH.selectorsBEM.currentSlide))
 }
 
 // Check slider index - rearange translateX if index is below start or above last
-const checkSlideIndex = () => {
-  // console.log('checked slides');
-  if (index < startIndex) {
-    sliderInner.style.transition = 'none';
-    index = lastIndex;
-    sliderInner.style.transform = `translateX(${-slideWidth * index + slideWidth / 2}px)`;
-  } else if (index > lastIndex) {
-    sliderInner.style.transition = 'none';
-    index = startIndex;
-    sliderInner.style.transform = `translateX(${-slideWidth * index + slideWidth / 2}px)`;
+const checkSlideIndex = (e) => {
+  // OVO JE BITNO KAO BOG - GLEDAJ POSLE KOG TRANSITIONA ZELIS F-JU, JER IH IMA DOSTA, SVE STO SE DESI UNUTAR ELEMENTA AKTIVIRA OVU ISTU FUNKCIJU!!!
+  if (e.propertyName !== 'transform') {
+    return;
   }
-  // isSliding = false;
+  if (e.srcElement.className.includes(sliderMH.selectors.sliderInner)) {
+    if (index < startIndex) {
+      sliderInner.style.transition = 'none';
+      index = lastIndex;
+      sliderInner.style.transform = `translateX(${-slideWidth * index + slideWidth / 2}px)`;
+    } else if (index > lastIndex) {
+      sliderInner.style.transition = 'none';
+      index = startIndex;
+      sliderInner.style.transform = `translateX(${-slideWidth * index + slideWidth / 2}px)`;
+    }
+    isSliding = false;
+    //Ne treba dole nego ovde, kad se uradi expand current slide, tek onda proveri ovo... kako znas da je gotovo expand current slide? Kad je transitionend na contentu?
+  }
 }
 
 // Expand current slide after the transitions have ended
-const expandCurrentSlide = () => {
-  // console.log('expanded slide');
-  if (index < startIndex) {
-    slides[lastIndex].classList.add(sliderMH.selectors.currentSlide, sliderMH.selectorsBEM.currentSlide)
-  } else if (index > lastIndex) {
-    slides[startIndex].classList.add(sliderMH.selectors.currentSlide, sliderMH.selectorsBEM.currentSlide)
-  } else {
-    slides[index].classList.add(sliderMH.selectors.currentSlide, sliderMH.selectorsBEM.currentSlide)
+const expandCurrentSlide = (e) => {
+  if (e.propertyName !== 'transform') {
+    return;
   }
-  isSliding = false;
+  if (e.srcElement.className.includes(sliderMH.selectors.sliderInner)) {
+    if (index < startIndex) {
+      slides[lastIndex].classList.add(sliderMH.selectors.currentSlide, sliderMH.selectorsBEM.currentSlide)
+    } else if (index > lastIndex) {
+      slides[startIndex].classList.add(sliderMH.selectors.currentSlide, sliderMH.selectorsBEM.currentSlide)
+    } else {
+      slides[index].classList.add(sliderMH.selectors.currentSlide, sliderMH.selectorsBEM.currentSlide)
+    }
+    // //OVO TREBA DA IDE TEK POSTO SE ODRADI EFEKAT TOG CURRENTA!!!
+    // isSliding = false;
+  }
 }
 
 const slideRight = () => {
@@ -98,11 +112,13 @@ const slideLeft = () => {
 
 // Check which slide is clicked: If current then go to link, if prev or next image clicked, then do next / prev button.
 const checkClickedSlide = (e) => {
+  // if (isSliding === false) {
   const clickedWrapper = e.currentTarget;
   const clickedElement = e.target;
-  if (clickedWrapper.className.includes(sliderMH.selectors.currentSlide)) {
-    return true;
-  }
+  // if (clickedWrapper.className.includes(sliderMH.selectors.currentSlide)) {
+  //   return true;
+  // }
+  console.log(clickedWrapper.getBoundingClientRect().left);
   e.preventDefault();
   if (clickedElement.tagName === 'IMG') {
     if (clickedWrapper.previousElementSibling.className.includes(sliderMH.selectors.currentSlide)) {
@@ -112,4 +128,5 @@ const checkClickedSlide = (e) => {
       slideLeft();
     }
   }
+  // }
 }
