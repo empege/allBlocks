@@ -64,7 +64,6 @@ const sliderMouseDown = (e) => {
 const sliderMouseMove = (e) => {
   if (isMoving) {
     diffx = e.pageX - mouseLastPosition;
-    console.log('diffx: ', diffx);
     // Transition je samo zezao brzinu pokreta misa kad dragujes...
     sliderInner.style.transition = 'none';
     sliderInner.style.transform = `translateX(${-slideWidth * index + slideWidth / 2 + diffx}px)`;
@@ -74,14 +73,12 @@ const sliderMouseMove = (e) => {
 const sliderMouseLeaveOrUp = () => {
   isMoving = false;
   if (diffx >= slideWidth / 2) {
-    isMoving = false;
     slideLeft();
   }
   if (diffx <= - (slideWidth / 2)) {
-    isMoving = false;
     slideRight();
   }
-  if (diffx > - (slideWidth / 2) && diffx < slideWidth / 2) {
+  if (diffx > - (slideWidth / 2) && diffx < slideWidth / 2 && diffx !== 0) {
     slideFoo();
   }
   diffx = 0;
