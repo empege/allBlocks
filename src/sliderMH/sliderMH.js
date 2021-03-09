@@ -3,6 +3,7 @@ const sliderMH = {
     slider: 'js-slider',
     slide: 'js-slide',
     sliderInner: 'js-slider-inner',
+    sliderArrow: 'js-slide-arrow',
     arrowLeft: 'js-arrow-left',
     arrowRight: 'js-arrow-right',
     currentSlide: 'js-current-slide',
@@ -19,6 +20,7 @@ const sliderMH = {
 }
 
 // Elements
+const slider = document.querySelector(`.${sliderMH.selectors.slider}`);
 const sliderInner = document.querySelector(`.${sliderMH.selectors.sliderInner}`);
 const slides = document.querySelectorAll(`.${sliderMH.selectors.slide}`);
 const slide = document.querySelector(`.${sliderMH.selectors.slide}`)
@@ -33,6 +35,11 @@ sliderInner.addEventListener('transitionend', (e) => expandCurrentSlide(e));
 sliderInner.addEventListener('transitionend', (e) => checkSlideIndex(e));
 slides.forEach(slide => slide.addEventListener('click', (e) => checkClickedSlide(e)))
 
+slider.addEventListener('mousedown', (e) => sliderMouseDown(e));
+slider.addEventListener('mousemove', (e) => sliderMouseMove(e));
+slider.addEventListener('mouseleave', (e) => sliderMouseLeaveOrUp())
+document.addEventListener('mouseup', (e) => sliderMouseLeaveOrUp())
+
 
 // Width of slide element
 const slideWidth = slide.offsetWidth;
@@ -42,6 +49,43 @@ const startIndex = slides.length / 3;
 const lastIndex = startIndex + startIndex - 1;
 let index = startIndex;
 let isSliding = false;
+
+let isMoving = false;
+let mouseLastPosition = 0;
+let diffx;
+
+const sliderMouseDown = (e) => {
+  if (!e.target.className.includes(sliderMH.selectors.sliderArrow)) {
+    isMoving = true;
+    mouseLastPosition = e.pageX;
+  }
+}
+
+const sliderMouseMove = (e) => {
+  if (isMoving) {
+    diffx = e.pageX - mouseLastPosition;
+    console.log('diffx: ', diffx);
+    // Transition je samo zezao brzinu pokreta misa kad dragujes...
+    sliderInner.style.transition = 'none';
+    sliderInner.style.transform = `translateX(${-slideWidth * index + slideWidth / 2 + diffx}px)`;
+  }
+}
+
+const sliderMouseLeaveOrUp = () => {
+  isMoving = false;
+  if (diffx >= slideWidth / 2) {
+    isMoving = false;
+    slideLeft();
+  }
+  if (diffx <= - (slideWidth / 2)) {
+    isMoving = false;
+    slideRight();
+  }
+  if (diffx > - (slideWidth / 2) && diffx < slideWidth / 2) {
+    slideFoo();
+  }
+  diffx = 0;
+}
 
 // Set slider to be at the startIndex slide, transition: none so it's not visible to user.
 const loadSlides = () => {
@@ -90,8 +134,6 @@ const expandCurrentSlide = (e) => {
     } else {
       slides[index].classList.add(sliderMH.selectors.currentSlide, sliderMH.selectorsBEM.currentSlide)
     }
-    // //OVO TREBA DA IDE TEK POSTO SE ODRADI EFEKAT TOG CURRENTA!!!
-    // isSliding = false;
   }
 }
 
@@ -118,7 +160,7 @@ const checkClickedSlide = (e) => {
   // if (clickedWrapper.className.includes(sliderMH.selectors.currentSlide)) {
   //   return true;
   // }
-  console.log(clickedWrapper.getBoundingClientRect().left);
+  // console.log(clickedWrapper.getBoundingClientRect().left);
   e.preventDefault();
   if (clickedElement.tagName === 'IMG') {
     if (clickedWrapper.previousElementSibling.className.includes(sliderMH.selectors.currentSlide)) {

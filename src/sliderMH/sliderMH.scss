@@ -28,6 +28,7 @@ body {
   position: relative;
   overflow-x: hidden;
   overflow-y: visible;
+  // pointer-events: none;
   &__arrow {
     position: absolute;
     top: 450px;
