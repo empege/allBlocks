@@ -28,18 +28,29 @@ const sliderContent = document.querySelectorAll(`.${sliderMH.selectors.sliderCon
 const arrowLeft = document.querySelector(`.${sliderMH.selectors.arrowLeft}`)
 const arrowRight = document.querySelector(`.${sliderMH.selectors.arrowRight}`)
 
+if (window.PointerEvent) {
+  slider.addEventListener('pointerdown', (e) => sliderMouseDown(e));
+  slider.addEventListener('pointermove', (e) => sliderMouseMove(e));
+  slider.addEventListener('pointerleave', () => sliderMouseLeaveOrUp())
+  document.addEventListener('pointerup', () => sliderMouseLeaveOrUp())
+} else {
+  slider.addEventListener('pointerdown', (e) => sliderMouseDown(e));
+  slider.addEventListener('pointermove', (e) => sliderMouseMove(e));
+  slider.addEventListener('pointerleave', () => sliderMouseLeaveOrUp())
+  document.addEventListener('pointerup', () => sliderMouseLeaveOrUp())
+
+  slider.addEventListener('touchdown', (e) => sliderMouseDown(e));
+  slider.addEventListener('touchmove', (e) => sliderMouseMove(e));
+  slider.addEventListener('touchleave', () => sliderMouseLeaveOrUp())
+  document.addEventListener('touchup  ', () => sliderMouseLeaveOrUp())
+}
+
 // Event Listeners
 arrowLeft.addEventListener('click', () => slideLeft());
 arrowRight.addEventListener('click', () => slideRight());
 sliderInner.addEventListener('transitionend', (e) => expandCurrentSlide(e));
 sliderInner.addEventListener('transitionend', (e) => checkSlideIndex(e));
 slides.forEach(slide => slide.addEventListener('click', (e) => checkClickedSlide(e)))
-
-slider.addEventListener('mousedown', (e) => sliderMouseDown(e));
-slider.addEventListener('mousemove', (e) => sliderMouseMove(e));
-slider.addEventListener('mouseleave', (e) => sliderMouseLeaveOrUp())
-document.addEventListener('mouseup', (e) => sliderMouseLeaveOrUp())
-
 
 // Width of slide element
 const slideWidth = slide.offsetWidth;
@@ -62,6 +73,7 @@ const sliderMouseDown = (e) => {
 }
 
 const sliderMouseMove = (e) => {
+  // console.log(e);
   if (isMoving) {
     diffx = e.pageX - mouseLastPosition;
     // Transition je samo zezao brzinu pokreta misa kad dragujes...
@@ -79,6 +91,7 @@ const sliderMouseLeaveOrUp = () => {
     slideRight();
   }
   if (diffx > - (slideWidth / 2) && diffx < slideWidth / 2 && diffx !== 0) {
+    console.log(1);
     slideFoo();
   }
   diffx = 0;

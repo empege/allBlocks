@@ -32,6 +32,8 @@ body {
   position: relative;
   overflow-x: hidden;
   overflow-y: visible;
+  -ms-touch-action: none;
+      touch-action: none;
 }
 
 .slider__arrow {
