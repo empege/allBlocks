@@ -1,9 +1,11 @@
-* {box-sizing: border-box;}
-
 @font-face { font-family: Gotham; src: url('GothamLight.ttf'); }
-
+// Variables
 $main-color: #4a4a4a;
-
+$sliderMH-width-l: 1200px;
+$sliderMH-width-m: 100%;
+$sliderMH-width-s: 100%;
+// General
+* {box-sizing: border-box;}
 h1, h2, h3, h4, h5, h6 {
   color: $main-color;
   display: block;
@@ -22,14 +24,13 @@ body {
 }
 
 .slider {
-  width: 1200px;
+  width: $sliderMH-width-l;
   height: auto;
   margin: 0 auto;
   position: relative;
   overflow-x: hidden;
   overflow-y: visible;
   touch-action: none;
-  // pointer-events: none;
   &__arrow {
     position: absolute;
     top: 450px;
@@ -51,22 +52,19 @@ body {
     display: flex;
     padding: 20px 0;
     position: relative;
-    // border: 1px solid red;
   }
   &__slide {
-    min-width: 600px;
+    min-width: $sliderMH-width-l / 2;
     height: 100%;
     position: relative;
     transition: 0.4s;
     padding: 0 15px;
-    // border: 1px solid red;
     &:hover .read-more {
       text-decoration: underline;
     }
   }
   &__slide:not(.slider__slide--current){
     cursor: default;
-    // pointer-events: none;
   }
   &__content {
     visibility: none;
@@ -90,7 +88,6 @@ body {
   &__slide--current {
     transition: all 0.4s;
     padding-top: 50px;
-    // transform: translateY(50px);
     z-index: 2;
     cursor: pointer;
     .slider__content {
@@ -107,6 +104,41 @@ body {
     cursor: pointer;
     transition: .3s;
     width: 100%;
+  }
+}
+
+@media only screen and (max-width: 1300px) {
+  .slider {
+    width: $sliderMH-width-m;
+    &__slide {
+      min-width: $sliderMH-width-m / 2;
+    }
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .slider {
+    width: $sliderMH-width-s;
+    &__slide {
+      min-width: $sliderMH-width-s / 1.25;
+    }
+    &__arrow {
+      display: none;
+    }
+    &__content {
+      visibility: none;
+      opacity: 0;
+      margin-top: 20px;
+      margin-left: -20px;
+      margin-right: -20px;
+    }
+    &__description {
+      margin: 20px 0 0;
+    }
+    &:hover .slider__image {
+      transition: none;
+      transform: none;
+    }
   }
 }
 

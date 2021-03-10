@@ -53,7 +53,23 @@ sliderInner.addEventListener('transitionend', (e) => checkSlideIndex(e));
 slides.forEach(slide => slide.addEventListener('click', (e) => checkClickedSlide(e)))
 
 // Width of slide element
-const slideWidth = slide.offsetWidth;
+let slideWidth = slide.offsetWidth;
+let translateDivisionAmount;
+window.onresize = () => {
+  console.log(window.innerWidth);
+  slideWidth = slide.offsetWidth;
+  checkWindowSize();
+  loadSlides();
+}
+const checkWindowSize = () => {
+  // Na 768 i 769 ne radi kad se bas resize. Ako se tako ucita, onda je ok sve. Ako se poveca i smanji vise ili manje od toga, pa vrati, opet radi. Samo prvi put kad udje u tu velicinu ne radi.
+  if (window.innerWidth <= 767) {
+    translateDivisionAmount = 8;
+  } else {
+    translateDivisionAmount = 2;
+  }
+}
+checkWindowSize();
 
 // As there are copies of all slides to the left and right, we divide number of all by 3, and the middle ones are the ones we are going to see. We get startIndex as below:
 const startIndex = slides.length / 3;
@@ -73,12 +89,11 @@ const sliderMouseDown = (e) => {
 }
 
 const sliderMouseMove = (e) => {
-  // console.log(e);
   if (isMoving) {
     diffx = e.pageX - mouseLastPosition;
     // Transition je samo zezao brzinu pokreta misa kad dragujes...
     sliderInner.style.transition = 'none';
-    sliderInner.style.transform = `translateX(${-slideWidth * index + slideWidth / 2 + diffx}px)`;
+    sliderInner.style.transform = `translateX(${-slideWidth * index + slideWidth / translateDivisionAmount + diffx}px)`;
   }
 }
 
@@ -91,7 +106,6 @@ const sliderMouseLeaveOrUp = () => {
     slideRight();
   }
   if (diffx > - (slideWidth / 2) && diffx < slideWidth / 2 && diffx !== 0) {
-    console.log(1);
     slideFoo();
   }
   diffx = 0;
@@ -99,14 +113,14 @@ const sliderMouseLeaveOrUp = () => {
 
 // Set slider to be at the startIndex slide, transition: none so it's not visible to user.
 const loadSlides = () => {
-  sliderInner.style.transform = `translateX(${-slideWidth * index + slideWidth / 2}px)`;
+  sliderInner.style.transform = `translateX(${-slideWidth * index + slideWidth / translateDivisionAmount}px)`;
 }
 loadSlides();
 
 // Slide left and right - show slider based on current index
 const slideFoo = () => {
   sliderInner.style.transition = '.4s all'
-  sliderInner.style.transform = `translateX(${-slideWidth * index + slideWidth / 2}px)`;
+  sliderInner.style.transform = `translateX(${-slideWidth * index + slideWidth / translateDivisionAmount}px)`;
   slides.forEach(slide => slide.classList.remove(sliderMH.selectors.currentSlide, sliderMH.selectorsBEM.currentSlide))
 }
 
@@ -120,11 +134,11 @@ const checkSlideIndex = (e) => {
     if (index < startIndex) {
       sliderInner.style.transition = 'none';
       index = lastIndex;
-      sliderInner.style.transform = `translateX(${-slideWidth * index + slideWidth / 2}px)`;
+      sliderInner.style.transform = `translateX(${-slideWidth * index + slideWidth / translateDivisionAmount}px)`;
     } else if (index > lastIndex) {
       sliderInner.style.transition = 'none';
       index = startIndex;
-      sliderInner.style.transform = `translateX(${-slideWidth * index + slideWidth / 2}px)`;
+      sliderInner.style.transform = `translateX(${-slideWidth * index + slideWidth / translateDivisionAmount}px)`;
     }
     isSliding = false;
     //Ne treba dole nego ovde, kad se uradi expand current slide, tek onda proveri ovo... kako znas da je gotovo expand current slide? Kad je transitionend na contentu?
@@ -164,13 +178,11 @@ const slideLeft = () => {
 
 // Check which slide is clicked: If current then go to link, if prev or next image clicked, then do next / prev button.
 const checkClickedSlide = (e) => {
-  // if (isSliding === false) {
   const clickedWrapper = e.currentTarget;
   const clickedElement = e.target;
-  // if (clickedWrapper.className.includes(sliderMH.selectors.currentSlide)) {
-  //   return true;
-  // }
-  // console.log(clickedWrapper.getBoundingClientRect().left);
+  if (clickedWrapper.className.includes(sliderMH.selectors.currentSlide)) {
+    return true;
+  }
   e.preventDefault();
   if (clickedElement.tagName === 'IMG') {
     if (clickedWrapper.previousElementSibling.className.includes(sliderMH.selectors.currentSlide)) {
