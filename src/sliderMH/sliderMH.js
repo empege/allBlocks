@@ -7,10 +7,8 @@ const sliderMH = {
     arrowLeft: 'js-arrow-left',
     arrowRight: 'js-arrow-right',
     currentSlide: 'js-current-slide',
-    previousSlide: 'js-previous-slide',
-    nextSlide: 'js-next-slide',
   },
-  selectorsBEM: {
+  selectorsCSS: {
     slider: 'slider',
     slide: 'slider__slide',
     sliderInner: 'slider__inner',
@@ -24,10 +22,10 @@ const slider = document.querySelector(`.${sliderMH.selectors.slider}`);
 const sliderInner = document.querySelector(`.${sliderMH.selectors.sliderInner}`);
 const slides = document.querySelectorAll(`.${sliderMH.selectors.slide}`);
 const slide = document.querySelector(`.${sliderMH.selectors.slide}`)
-const sliderContent = document.querySelectorAll(`.${sliderMH.selectors.sliderContent}`)
 const arrowLeft = document.querySelector(`.${sliderMH.selectors.arrowLeft}`)
 const arrowRight = document.querySelector(`.${sliderMH.selectors.arrowRight}`)
 
+// Event Listeners
 if (window.PointerEvent) {
   slider.addEventListener('pointerdown', (e) => sliderMouseDown(e));
   slider.addEventListener('pointermove', (e) => sliderMouseMove(e));
@@ -44,8 +42,6 @@ if (window.PointerEvent) {
   slider.addEventListener('touchleave', () => sliderMouseLeaveOrUp())
   document.addEventListener('touchup  ', () => sliderMouseLeaveOrUp())
 }
-
-// Event Listeners
 arrowLeft.addEventListener('click', () => slideLeft());
 arrowRight.addEventListener('click', () => slideRight());
 sliderInner.addEventListener('transitionend', (e) => expandCurrentSlide(e));
@@ -56,13 +52,12 @@ slides.forEach(slide => slide.addEventListener('click', (e) => checkClickedSlide
 let slideWidth = slide.offsetWidth;
 let translateDivisionAmount;
 window.onresize = () => {
-  console.log(window.innerWidth);
   slideWidth = slide.offsetWidth;
   checkWindowSize();
   loadSlides();
 }
 const checkWindowSize = () => {
-  // Na 768 i 769 ne radi kad se bas resize. Ako se tako ucita, onda je ok sve. Ako se poveca i smanji vise ili manje od toga, pa vrati, opet radi. Samo prvi put kad udje u tu velicinu ne radi.
+  // Na 767 i 768 ne radi kad se bas resize...
   if (window.innerWidth <= 767) {
     translateDivisionAmount = 8;
   } else {
@@ -114,6 +109,7 @@ const sliderMouseLeaveOrUp = () => {
 // Set slider to be at the startIndex slide, transition: none so it's not visible to user.
 const loadSlides = () => {
   sliderInner.style.transform = `translateX(${-slideWidth * index + slideWidth / translateDivisionAmount}px)`;
+  slides[index].classList.add(sliderMH.selectors.currentSlide, sliderMH.selectorsCSS.currentSlide)
 }
 loadSlides();
 
@@ -121,7 +117,7 @@ loadSlides();
 const slideFoo = () => {
   sliderInner.style.transition = '.4s all'
   sliderInner.style.transform = `translateX(${-slideWidth * index + slideWidth / translateDivisionAmount}px)`;
-  slides.forEach(slide => slide.classList.remove(sliderMH.selectors.currentSlide, sliderMH.selectorsBEM.currentSlide))
+  slides.forEach(slide => slide.classList.remove(sliderMH.selectors.currentSlide, sliderMH.selectorsCSS.currentSlide))
 }
 
 // Check slider index - rearange translateX if index is below start or above last
@@ -141,7 +137,6 @@ const checkSlideIndex = (e) => {
       sliderInner.style.transform = `translateX(${-slideWidth * index + slideWidth / translateDivisionAmount}px)`;
     }
     isSliding = false;
-    //Ne treba dole nego ovde, kad se uradi expand current slide, tek onda proveri ovo... kako znas da je gotovo expand current slide? Kad je transitionend na contentu?
   }
 }
 
@@ -152,11 +147,11 @@ const expandCurrentSlide = (e) => {
   }
   if (e.srcElement.className.includes(sliderMH.selectors.sliderInner)) {
     if (index < startIndex) {
-      slides[lastIndex].classList.add(sliderMH.selectors.currentSlide, sliderMH.selectorsBEM.currentSlide)
+      slides[lastIndex].classList.add(sliderMH.selectors.currentSlide, sliderMH.selectorsCSS.currentSlide)
     } else if (index > lastIndex) {
-      slides[startIndex].classList.add(sliderMH.selectors.currentSlide, sliderMH.selectorsBEM.currentSlide)
+      slides[startIndex].classList.add(sliderMH.selectors.currentSlide, sliderMH.selectorsCSS.currentSlide)
     } else {
-      slides[index].classList.add(sliderMH.selectors.currentSlide, sliderMH.selectorsBEM.currentSlide)
+      slides[index].classList.add(sliderMH.selectors.currentSlide, sliderMH.selectorsCSS.currentSlide)
     }
   }
 }
@@ -192,5 +187,4 @@ const checkClickedSlide = (e) => {
       slideLeft();
     }
   }
-  // }
 }

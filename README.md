@@ -1,3 +1,3 @@
 ## ALL Blocks
 
-- Trying to make some components, templates, and put them all together :)
+- Trying to complete this Mann Hummel Slider...

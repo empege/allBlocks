@@ -3,30 +3,15 @@
   src: url("GothamLight.ttf");
 }
 
-* {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  color: #4a4a4a;
-  display: block;
-  margin: 0;
-}
-
-a {
-  text-decoration: none;
-  color: #4a4a4a;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Shippori Mincho', serif;
+.slider-test-container {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .slider {
-  width: 1200px;
+  text-align: left;
+  font-family: 'Shippori Mincho', serif;
+  width: 100%;
   height: auto;
   margin: 0 auto;
   position: relative;
@@ -34,6 +19,17 @@ body {
   overflow-y: visible;
   -ms-touch-action: none;
       touch-action: none;
+}
+
+.slider a {
+  text-decoration: none;
+  color: #4a4a4a;
+}
+
+.slider h1, .slider h2, .slider h3, .slider h4, .slider h5, .slider h6 {
+  color: #4a4a4a;
+  display: block;
+  margin: 0;
 }
 
 .slider__arrow {
@@ -56,7 +52,6 @@ body {
 
 .slider__inner {
   width: 100%;
-  height: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -65,7 +60,7 @@ body {
 }
 
 .slider__slide {
-  min-width: 600px;
+  min-width: 50%;
   height: 100%;
   position: relative;
   -webkit-transition: 0.4s;
@@ -134,15 +129,6 @@ body {
   width: 100%;
 }
 
-@media only screen and (max-width: 1300px) {
-  .slider {
-    width: 100%;
-  }
-  .slider__slide {
-    min-width: 50%;
-  }
-}
-
 @media only screen and (max-width: 767px) {
   .slider {
     width: 100%;
@@ -169,23 +155,4 @@ body {
     -webkit-transform: none;
             transform: none;
   }
-}
-
-.read-more {
-  color: #00732d;
-  font-size: 18px;
-  line-height: 26px;
-  font-weight: bold;
-  line-height: 26px;
-}
-
-.read-more:after {
-  content: '';
-  display: inline-block;
-  position: relative;
-  right: -10px;
-  bottom: -3px;
-  height: 22px;
-  width: 13px;
-  background: url("arrow-right-green-big.svg") no-repeat;
 }

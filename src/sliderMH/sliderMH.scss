@@ -1,36 +1,33 @@
 @font-face { font-family: Gotham; src: url('GothamLight.ttf'); }
 // Variables
 $main-color: #4a4a4a;
-$sliderMH-width-l: 1200px;
-$sliderMH-width-m: 100%;
-$sliderMH-width-s: 100%;
-// General
-* {box-sizing: border-box;}
-h1, h2, h3, h4, h5, h6 {
-  color: $main-color;
-  display: block;
-  margin: 0;
+$sliderMH-width-full: 100%; // iz nekog razloga deljenje sa % radi samo kad delim variablu, ne 100% / 2 npr.
+.slider-test-container {
+  // width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
-a {
-  text-decoration: none;
-  color: $main-color;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Shippori Mincho', serif;
-  // font-family: Gotham, serif;
-}
-
+// Slider MH
 .slider {
-  width: $sliderMH-width-l;
+  text-align: left;
+  font-family: 'Shippori Mincho', serif;
+  // max-width: 1200px;
+  width: $sliderMH-width-full;
   height: auto;
   margin: 0 auto;
   position: relative;
   overflow-x: hidden;
   overflow-y: visible;
   touch-action: none;
+  & a {
+    text-decoration: none;
+    color: $main-color;
+  }
+  & h1, & h2, & h3, & h4, & h5, & h6 {
+    color: $main-color;
+    display: block;
+    margin: 0;
+  }
   &__arrow {
     position: absolute;
     top: 450px;
@@ -48,13 +45,13 @@ body {
   }
   &__inner {
     width: 100%;
-    height: 100%;
+    // height: 100%;
     display: flex;
     padding: 20px 0;
     position: relative;
   }
   &__slide {
-    min-width: $sliderMH-width-l / 2;
+    min-width: $sliderMH-width-full / 2;
     height: 100%;
     position: relative;
     transition: 0.4s;
@@ -107,20 +104,12 @@ body {
   }
 }
 
-@media only screen and (max-width: 1300px) {
-  .slider {
-    width: $sliderMH-width-m;
-    &__slide {
-      min-width: $sliderMH-width-m / 2;
-    }
-  }
-}
-
+// Media Queries
 @media only screen and (max-width: 767px) {
   .slider {
-    width: $sliderMH-width-s;
+    width: $sliderMH-width-full;
     &__slide {
-      min-width: $sliderMH-width-s / 1.25;
+      min-width: $sliderMH-width-full / 1.25;
     }
     &__arrow {
       display: none;
@@ -142,20 +131,21 @@ body {
   }
 }
 
-.read-more {
-  color: #00732d;
-  font-size: 18px;
-  line-height: 26px;
-  font-weight: bold;
-  line-height: 26px;
-  &:after {
-    content: '';
-    display: inline-block;
-    position: relative;
-    right: -10px;
-    bottom: -3px;
-    height: 22px;
-    width: 13px;
-    background: url('arrow-right-green-big.svg') no-repeat;
-  }
-}
+// Should come from general?
+// .read-more {
+//   color: #00732d;
+//   font-size: 18px;
+//   line-height: 26px;
+//   font-weight: bold;
+//   line-height: 26px;
+//   &:after {
+//     content: '';
+//     display: inline-block;
+//     position: relative;
+//     right: -10px;
+//     bottom: -3px;
+//     height: 22px;
+//     width: 13px;
+//     background: url('arrow-right-green-big.svg') no-repeat;
+//   }
+// }

@@ -1,4 +1,4 @@
-@import 'variables';
+@import '../variables';
 
 .faq-page-wrapper {
   max-width: $faq-page-wrapper-width;
@@ -7,12 +7,32 @@
   color: $color-secondary-text;
 }
 
-@import 'accordion/_accordion.scss';
-@import 'accordion/_theme/_accordion--theme--primary.scss';
-@import 'accordion/_theme/_accordion--theme--secondary.scss';
+@import '../accordion/_accordion.scss';
+@import '../accordion/_theme/_accordion--theme--primary.scss';
+@import '../accordion/_theme/_accordion--theme--secondary.scss';
 
-@import 'modal/_modal.scss';
-@import 'modal/_theme/_modal--theme--default.scss';
-@import 'modal/_theme/_modal--theme--warning.scss';
+@import '../modal/_modal.scss';
+@import '../modal/_theme/_modal--theme--default.scss';
+@import '../modal/_theme/_modal--theme--warning.scss';
 
-@import 'sidebar/_sidebar.scss';
+@import '../sidebar/_sidebar.scss';
+
+@import '../sliderMH/sliderMH.scss';
+
+.read-more {
+  color: #00732d;
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: bold;
+  line-height: 26px;
+  &:after {
+    content: '';
+    display: inline-block;
+    position: relative;
+    right: -10px;
+    bottom: -3px;
+    height: 22px;
+    width: 13px;
+    background: url('../sliderMH/arrow-right-green-big.svg') no-repeat;
+  }
+}
