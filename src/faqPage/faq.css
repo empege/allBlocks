@@ -463,6 +463,7 @@
   border-right: 3px solid #212838;
   color: black;
   text-align: center;
+  z-index: 100;
 }
 
 .sidebar--active {

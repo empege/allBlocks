@@ -5,3 +5,4 @@ import './faqPage/faq';
 import './accordion/accordion.js'
 import './sidebar/sidebar.js'
 import './modal/modal.js'
+import './slidermh/slidermh.js'

@@ -4,7 +4,19 @@
   <button class="slider__arrow slider__arrow--right js-arrow-right"> <img src="../sliderMH/arrowright.png" alt="arrow-right" class="js-slide-arrow" /> </button>
   <div class="slider__inner js-slider-inner">
     {{#each data}}
-    <a draggableq="false" href={{url}} class="slider__slide js-slide">
+    <a draggable="false" class="slider__slide js-slide" target="_blanc" href={{url}}>
+      <img draggable="false" class="slider__image" src={{img}} alt="slide-image">
+      <div class="slider__content">
+        <h3 class="slider__title">{{title}}</h3>
+        <p class="slider__description">{{text}}</p>
+        <div class="slider__action-btn">
+          <span class="read-more">Read More</span>
+        </div>
+      </div>
+    </a>
+    {{/each}}
+    {{#each data}}
+    <a draggable="false" target="_blanc" href={{url}} class="slider__slide js-slide">
       <img draggable="false" src={{img}} alt="slide-image" class="slider__image">
       <div class="slider__content">
         <h3 class="slider__title">{{title}}</h3>
@@ -16,19 +28,7 @@
     </a>
     {{/each}}
     {{#each data}}
-    <a draggable="false" href={{url}} class="slider__slide js-slide">
-      <img draggable="false" src={{img}} alt="slide-image" class="slider__image">
-      <div class="slider__content">
-        <h3 class="slider__title">{{title}}</h3>
-        <p class="slider__description">{{text}}</p>
-        <div class="slider__action-btn">
-          <span class="read-more">Read More</span>
-        </div>
-      </div>
-    </a>
-    {{/each}}
-    {{#each data}}
-    <a draggable="false" href={{url}} class="slider__slide js-slide">
+    <a draggable="false" target="_blanc" href={{url}} class="slider__slide js-slide">
       <img draggable="false" src={{img}} alt="slide-image" class="slider__image">
       <div class="slider__content">
         <h3 class="slider__title">{{title}}</h3>

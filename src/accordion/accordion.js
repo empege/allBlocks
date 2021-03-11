@@ -29,12 +29,12 @@ const toggleSlideAccordionItem = (e) => {
   if ([...header.classList].includes('accordion__header--active')) {
     header.classList.remove('accordion__header--active');
     content.style.maxHeight = 0;
-    icons[0].classList.add('display-none')
-    icons[1].classList.remove('display-none')
+    icons[0].classList.remove('display-none')
+    icons[1].classList.add('display-none')
   } else {
     header.classList.add('accordion__header--active');
     content.style.maxHeight = `${paragraphHeight + 40}px`; // Ovde mi treba neki size koji je default za padding, a ne ovako da zakucavam.
-    icons[0].classList.remove('display-none')
-    icons[1].classList.add('display-none')
+    icons[0].classList.add('display-none')
+    icons[1].classList.remove('display-none')
   }
 }
