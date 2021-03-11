@@ -20,11 +20,13 @@ const sliderMH = {
 const allSliders = document.querySelectorAll(`.${sliderMH.selectors.slider}`);
 
 allSliders.forEach((currentSlider, id) => {
+  // Kako znaju svi ovi dole da menjaju bas taj diffx npr kad je let i kad ga i jedno i drugo menjaju? Kako js pamti razlicitosti iz ove dve anonimne funkcije? Bas zanimljivo, i korisno.
 
   // Elements
-  const sliderTemp = {};
-  sliderTemp[id] = currentSlider;
-  const slider = sliderTemp[id];
+  // const sliderTemp = {};
+  // sliderTemp[id] = currentSlider;
+  // const slider = sliderTemp[id];
+  const slider = currentSlider;
   console.log(slider);
   const sliderInner = slider.querySelector(`.${sliderMH.selectors.sliderInner}`);
   const slides = slider.querySelectorAll(`.${sliderMH.selectors.slide}`);
@@ -81,9 +83,9 @@ allSliders.forEach((currentSlider, id) => {
   const startIndex = slides.length / 3;
   const lastIndex = startIndex + startIndex - 1;
   let index = startIndex;
-  let isSliding = false;
+  let isSliding = false; //Slide sliding
 
-  let isMoving = false;
+  let isMoving = false; //Mouse moving
   let mouseLastPosition = 0;
   let diffx = 0;
 
@@ -149,12 +151,14 @@ allSliders.forEach((currentSlider, id) => {
         index = startIndex;
         sliderInner.style.transform = `translateX(${-slideWidth * index + slideWidth / translateDivisionAmount}px)`;
       }
+      // Ovo treba da bude na kraju expand currenta! - ali ni kod njih nije ocigledno pa moze i da ostane...
       isSliding = false;
     }
   }
 
   // Expand current slide after the transitions have ended
   const expandCurrentSlide = (e) => {
+    // 1) --- ILI JE OVDE GRESKA I VRATI GA JER IMA NEKI DRUGI PROPERTYNAME I NE URADI POSLE DA VIDI TRANSFORM I ONDA TO BUDE
     if (e.propertyName !== 'transform') {
       return;
     }

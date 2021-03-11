@@ -126,8 +126,8 @@ const renderSliderMH = (rootElement, data) => {
   const parent = document.querySelector(rootElement);
   parent.innerHTML += ourGeneratedHTML;
 }
-renderModal('#faq-page', modalData, 'modal--theme--dark', 'modal--active--fadein');
-renderAccordion('.faq-page-wrapper', faqData, 'accordion--theme--primary');
+// renderModal('#faq-page', modalData, 'modal--theme--dark', 'modal--active--fadein');
+// renderAccordion('.faq-page-wrapper', faqData, 'accordion--theme--primary');
 renderSidebar('#faq-page');
 renderAccordion('.sidebar', sidebarData, 'accordion--theme--secondary');
 renderSliderMH('.slider-test-container', sliderMHData1);
