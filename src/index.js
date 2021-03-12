@@ -4,5 +4,5 @@ import './faqPage/faq';
 // import './modal/modaltemp.js';
 import './accordion/accordion.js'
 import './sidebar/sidebar.js'
-// import './modal/modal.js'
+import './modal/modal.js'
 import './slidermh/slidermh.js'
