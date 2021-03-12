@@ -27,7 +27,6 @@ allSliders.forEach((currentSlider, id) => {
   // sliderTemp[id] = currentSlider;
   // const slider = sliderTemp[id];
   const slider = currentSlider;
-  console.log(slider);
   const sliderInner = slider.querySelector(`.${sliderMH.selectors.sliderInner}`);
   const slides = slider.querySelectorAll(`.${sliderMH.selectors.slide}`);
   const slide = slider.querySelector(`.${sliderMH.selectors.slide}`)
@@ -63,12 +62,13 @@ allSliders.forEach((currentSlider, id) => {
   // Width of slide element
   let slideWidth = slide.offsetWidth;
   let translateDivisionAmount;
-  console.log(slideWidth);
-  window.onresize = () => {
+  // addEventListener umesto onresize, i onda ce normalno da doda na svakom loopu... ali ne znam koliko je dobro imati vise funkcija zakacenih za window...Ovako radi tho.
+  window.addEventListener('resize', () => {
     slideWidth = slide.offsetWidth;
+    console.log(slideWidth);
     checkWindowSize();
     loadSlides();
-  }
+  });
   const checkWindowSize = () => {
     // Na 767 i 768 ne radi kad se bas resize...
     if (window.innerWidth <= 767) {
@@ -107,7 +107,6 @@ allSliders.forEach((currentSlider, id) => {
   }
 
   const sliderMouseLeaveOrUp = () => {
-    console.log(diffx);
     isMoving = false;
     if (diffx >= slideWidth / 2) {
       slideLeft();
@@ -117,6 +116,13 @@ allSliders.forEach((currentSlider, id) => {
     }
     if (diffx > - (slideWidth / 2) && diffx < slideWidth / 2 && diffx !== 0) {
       slideFoo();
+    }
+    // Proba - ako kliknem samo (btn up i diff 0) a nema current slide, onda samo postavi current slide tu gde je sad index
+    // Ovo pomaze kad dodje do tog baga da nastavi da radi na klik! Ali zasto dolazi do baga majku mu...???
+    if (diffx === 0 && !slider.querySelector(`.${sliderMH.selectors.currentSlide}`)) {
+      console.log('a', diffx);
+      console.log(document.querySelector(`.${sliderMH.selectors.currentSlide}`));
+      slides[index].classList.add(sliderMH.selectors.currentSlide, sliderMH.selectorsCSS.currentSlide)
     }
     diffx = 0;
   }
@@ -199,9 +205,11 @@ allSliders.forEach((currentSlider, id) => {
     if (clickedElement.tagName === 'IMG') {
       if (clickedWrapper.previousElementSibling.className.includes(sliderMH.selectors.currentSlide)) {
         slideRight();
-      }
-      if (clickedWrapper.nextElementSibling.className.includes(sliderMH.selectors.currentSlide)) {
+      } else if (clickedWrapper.nextElementSibling.className.includes(sliderMH.selectors.currentSlide)) {
         slideLeft();
+      } else {
+        // Ovo jos proveri... ako slucajno nesto zabode i on skloni sve current slide klase i ne postavi novu na kraju transitiona, da uradi opet slide foo. Ne znam da li to resava taj problem koji se desi jednom u sto godina... jer ako stoji u mestu... slide foo iako mu daje transition novi, nece ga pomeriti? jer je vec na tom indexu, znaci na tom translateX i nece se mrdnuti?
+        slideFoo();
       }
     }
   }
