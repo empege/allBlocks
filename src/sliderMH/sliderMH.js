@@ -1,3 +1,4 @@
+/* SELECTORS */
 const sliderMH = {
   selectors: {
     slider: 'js-slider',
@@ -22,7 +23,7 @@ const allSliders = document.querySelectorAll(`.${sliderMH.selectors.slider}`);
 allSliders.forEach((currentSlider, id) => {
   // Kako znaju svi ovi dole da menjaju bas taj diffx npr kad je let i kad ga i jedno i drugo menjaju? Kako js pamti razlicitosti iz ove dve anonimne funkcije? Bas zanimljivo, i korisno.
 
-  // Elements
+  /* ELEMENTS */
   // const sliderTemp = {};
   // sliderTemp[id] = currentSlider;
   // const slider = sliderTemp[id];
@@ -59,13 +60,22 @@ allSliders.forEach((currentSlider, id) => {
   sliderInner.addEventListener('transitionend', (e) => checkSlideIndex(e));
   slides.forEach(slide => slide.addEventListener('click', (e) => checkClickedSlide(e)))
 
+  /* VARIABLES */
   // Width of slide element
   let slideWidth = slide.offsetWidth;
   let translateDivisionAmount;
+  // As there are copies of all slides to the left and right, we divide number of all by 3, and the middle ones are the ones we are going to see. We get startIndex as below:
+  const startIndex = slides.length / 3;
+  const lastIndex = startIndex + startIndex - 1;
+  let index = startIndex;
+  let isSliding = false; //Slide sliding
+  let isMoving = false; //Mouse moving
+  let mouseLastPosition = 0;
+  let diffx = 0;
+
   // addEventListener umesto onresize, i onda ce normalno da doda na svakom loopu... ali ne znam koliko je dobro imati vise funkcija zakacenih za window...Ovako radi tho.
   window.addEventListener('resize', () => {
     slideWidth = slide.offsetWidth;
-    console.log(slideWidth);
     checkWindowSize();
     loadSlides();
   });
@@ -79,15 +89,19 @@ allSliders.forEach((currentSlider, id) => {
   }
   checkWindowSize();
 
-  // As there are copies of all slides to the left and right, we divide number of all by 3, and the middle ones are the ones we are going to see. We get startIndex as below:
-  const startIndex = slides.length / 3;
-  const lastIndex = startIndex + startIndex - 1;
-  let index = startIndex;
-  let isSliding = false; //Slide sliding
+  // Set slider to be at the startIndex slide, transition: none so it's not visible to user.
+  const loadSlides = () => {
+    sliderInner.style.transform = `translateX(${-slideWidth * index + slideWidth / translateDivisionAmount}px)`;
+    slides[index].classList.add(sliderMH.selectors.currentSlide, sliderMH.selectorsCSS.currentSlide)
+  }
+  loadSlides();
 
-  let isMoving = false; //Mouse moving
-  let mouseLastPosition = 0;
-  let diffx = 0;
+  // Slide left and right - show slider based on current index
+  const slideFoo = () => {
+    sliderInner.style.transition = '.4s all'
+    sliderInner.style.transform = `translateX(${-slideWidth * index + slideWidth / translateDivisionAmount}px)`;
+    slides.forEach(slide => slide.classList.remove(sliderMH.selectors.currentSlide, sliderMH.selectorsCSS.currentSlide))
+  }
 
   const sliderMouseDown = (e) => {
     // Kad se klikne desni pa levi, on prepozna mouse down, ali ne mouse up. Zato gledaj samo levi klik: levi = 0, mousewheel = 1, desni = 2
@@ -120,25 +134,10 @@ allSliders.forEach((currentSlider, id) => {
     // Proba - ako kliknem samo (btn up i diff 0) a nema current slide, onda samo postavi current slide tu gde je sad index
     // Ovo pomaze kad dodje do tog baga da nastavi da radi na klik! Ali zasto dolazi do baga majku mu...???
     if (diffx === 0 && !slider.querySelector(`.${sliderMH.selectors.currentSlide}`)) {
-      console.log('a', diffx);
       console.log(document.querySelector(`.${sliderMH.selectors.currentSlide}`));
       slides[index].classList.add(sliderMH.selectors.currentSlide, sliderMH.selectorsCSS.currentSlide)
     }
     diffx = 0;
-  }
-
-  // Set slider to be at the startIndex slide, transition: none so it's not visible to user.
-  const loadSlides = () => {
-    sliderInner.style.transform = `translateX(${-slideWidth * index + slideWidth / translateDivisionAmount}px)`;
-    slides[index].classList.add(sliderMH.selectors.currentSlide, sliderMH.selectorsCSS.currentSlide)
-  }
-  loadSlides();
-
-  // Slide left and right - show slider based on current index
-  const slideFoo = () => {
-    sliderInner.style.transition = '.4s all'
-    sliderInner.style.transform = `translateX(${-slideWidth * index + slideWidth / translateDivisionAmount}px)`;
-    slides.forEach(slide => slide.classList.remove(sliderMH.selectors.currentSlide, sliderMH.selectorsCSS.currentSlide))
   }
 
   // Check slider index - rearange translateX if index is below start or above last
